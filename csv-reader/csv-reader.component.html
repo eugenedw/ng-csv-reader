@@ -1,0 +1,31 @@
+<label for="readFromFile">Read from File</label>
+<div class="input-group custom-file-button" id="readFromFile">
+  <label class="input-group-text" for="inputGroupFile">Select a File</label>
+  <input type="file" class="form-control" id="inputGroupFile" (change)="fileChangeListener($event)">
+</div>
+<small id="readFromFileHelp" class="form-text text-muted">Either upload a file with "Name", "Context", and "Appointment" (Y or N) headers, or enter individually below.</small>
+
+<div *ngIf="csvRecords !== undefined && csvRecords.length > 0">
+  <table class="table table-striped landing-table">
+    <tr>
+      <th>Name</th>
+      <th>Context</th>
+      <th>Appointment</th>
+    </tr>
+    <tr *ngFor="let context of csvRecords">
+      <td class="col-2">
+        {{context.name | isempty : "No Name Provided"}}
+      </td>
+      <td (click)="context.expand=!context.expand" class="pointer">
+        <div [hidden]="context.expand">{{context.context | limitTo : "90"}}</div>
+        <div [hidden]="!context.expand">{{context.context}}</div>
+      </td>
+      <td class="align-center">
+        {{context.appointment}}
+      </td>
+    </tr>
+  </table>
+  <div class="mt-2">
+    <button class="btn btn-success btn-sm" (click)="processfromfile()">Process Training Data</button>
+  </div>
+</div>
